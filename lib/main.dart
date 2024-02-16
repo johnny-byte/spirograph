@@ -12,7 +12,7 @@ void main() => runApp(App());
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: Page(),
     );
   }
@@ -34,7 +34,7 @@ class _PageState extends State<Page> with TickerProviderStateMixin {
     // TODO: implement initState
     super.initState();
     controller =
-        AnimationController(vsync: this, duration: Duration(seconds: 5));
+        AnimationController(vsync: this, duration: const Duration(seconds: 5));
 
     // animation = Tween<double>(begin: 0, end: 0).animate(controller);
     controller.repeat();
@@ -55,9 +55,10 @@ class _PageState extends State<Page> with TickerProviderStateMixin {
           animation: controller,
           movements: [
             Movement(1, 100),
-            Movement(-5, 1 / 10 * 100),
-            Movement(13, 1/20*100),
-            // Movement(-9, 100),
+            Movement(1, 27 / 20 * 100),
+            Movement(4, 19 / 20 * 100),
+            Movement(-5, 11 / 10 * 100),
+            // Movement(1, 3/5*100),
           ],
         ),
       ),
@@ -127,13 +128,15 @@ class CurveAnimation extends AnimatedWidget {
 class PainterForCurve extends CustomPainter {
   final double progress;
   final List<Offset> points;
-  final int nDrawable;
+
+  // количество точек для отрисовки
+  final int _nDrawablePoints;
 
   PainterForCurve({
     super.repaint,
     required this.progress,
     required this.points,
-  }) : nDrawable = progress >= 1
+  }) : _nDrawablePoints = progress >= 1
             ? points.length
             : max(1, (points.length * progress).toInt());
 
@@ -145,7 +148,7 @@ class PainterForCurve extends CustomPainter {
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round;
 
-    final drawablePoints = points.take(nDrawable);
+    final drawablePoints = points.take(_nDrawablePoints);
 
     final path = Path();
 
@@ -160,7 +163,6 @@ class PainterForCurve extends CustomPainter {
 
   @override
   bool shouldRepaint(PainterForCurve oldDelegate) {
-    // FIXME: implement shouldRepaint
-    return nDrawable != oldDelegate.nDrawable;
+    return _nDrawablePoints != oldDelegate._nDrawablePoints;
   }
 }
