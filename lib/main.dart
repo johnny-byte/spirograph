@@ -54,10 +54,10 @@ class _PageState extends State<Page> with TickerProviderStateMixin {
         child: CurveAnimation(
           animation: controller,
           movements: [
-            Movement(1, 100),
-            Movement(1, 27 / 20 * 100),
-            Movement(4, 19 / 20 * 100),
-            Movement(-5, 11 / 10 * 100),
+            CircleMovement(1, 100),
+            CircleMovement(1, 27 / 20 * 100),
+            CircleMovement(4, 19 / 20 * 100),
+            CircleMovement(-5, 11 / 10 * 100),
             // Movement(1, 3/5*100),
           ],
         ),
@@ -66,17 +66,17 @@ class _PageState extends State<Page> with TickerProviderStateMixin {
   }
 }
 
-class Movement {
+class CircleMovement {
   final Fraction w;
   final double r;
 
-  Movement(num w, num r)
+  CircleMovement(num w, num r)
       : w = w is double ? Fraction.fromDouble(w) : Fraction(w.toInt()),
         r = r.toDouble();
 }
 
 class CurveAnimation extends AnimatedWidget {
-  final List<Movement> movements;
+  final List<CircleMovement> movements;
   final List<Offset> points = [];
 
   CurveAnimation({
