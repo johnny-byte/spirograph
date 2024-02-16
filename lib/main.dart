@@ -1,9 +1,6 @@
 import 'dart:math';
-import 'dart:ui';
 
-// import 'package:advance_math/advance_math.dart';
 import 'package:flutter/material.dart';
-import 'dart:math' as math;
 
 import 'package:fraction/fraction.dart';
 
@@ -29,22 +26,18 @@ class Page extends StatefulWidget {
 
 class _PageState extends State<Page> with TickerProviderStateMixin {
   late final AnimationController controller;
-  late Animation animation;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     controller =
         AnimationController(vsync: this, duration: const Duration(seconds: 5));
 
-    // animation = Tween<double>(begin: 0, end: 0).animate(controller);
     controller.repeat();
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     controller.dispose();
   }
@@ -69,7 +62,9 @@ class _PageState extends State<Page> with TickerProviderStateMixin {
 }
 
 class CircleMovement {
+  // Угловая частота
   final Fraction w;
+  // Радиус окружности
   final double r;
 
   CircleMovement(num w, num r)
@@ -102,6 +97,7 @@ class CurveAnimation extends AnimatedWidget {
   }
 
   void _generatePoints() {
+    // Вычисляем наименьший общий период
     final reducedDenominatorProduct = movements
         .map((e) => e.w)
         .map((e) => e.reduce())
@@ -116,6 +112,8 @@ class CurveAnimation extends AnimatedWidget {
     r(t) {
       double x = 0;
       double y = 0;
+
+      // Складываем движения по окружностям
       for (var movement in movements) {
         x += movement.r * cos(movement.w.toDouble() * t);
         y += movement.r * sin(movement.w.toDouble() * t);
